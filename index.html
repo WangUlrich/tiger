@@ -184,6 +184,22 @@
       function hideImage() {
         document.querySelector('.black-overlay').style.opacity = '1';
       }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        var videoElements = document.querySelectorAll('video');
+
+        videoElements.forEach(function (videoElement) {
+          videoElement.controls = false;
+
+          videoElement.addEventListener('play', function () {
+            this.controls = false;
+          });
+
+          videoElement.addEventListener('pause', function () {
+            this.controls = false;
+          });
+        });
+      });
     </script>
   </body>
 </html>
