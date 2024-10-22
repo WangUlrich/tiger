@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buy/Sell avec vidéo</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        background-color: #000;
+      }
+
+      .buttons-container,
+      .video-container {
+        display: none;
+        text-align: center;
+        width: 100%;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        position: relative; /* Added relative positioning for layering */
+      }
+
+      .buttons-container.active {
+        display: flex;
+        flex-direction: row;
+      }
+
+      /* Container with background image and a black overlay */
+      .buttons-container {
+        background-image: url('dead.jpg'); /* Your background image */
+        background-size: cover;
+        background-position: center;
+        transition: opacity 1.5s ease; /* Smooth fade effect */
+      }
+
+      /* Black overlay over the background */
+      .black-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 1); /* Black overlay */
+        transition: opacity 1.5s ease; /* Smooth transition */
+        z-index: 1; /* Ensure it is above the background */
+      }
+
+      /* On hover over the Sell button, make the black overlay transparent */
+      .sell-btn:hover ~ .black-overlay {
+        opacity: 0; /* Reveal the background */
+      }
+
+      .buttons-container button {
+        padding: 15px 30px;
+        margin: 20px;
+        font-size: 36px;
+        cursor: pointer;
+        border: none; /* Removes border */
+        background: none; /* Removes background */
+        outline: none;
+        font-weight: bold;
+        z-index: 2; /* Keep buttons above the overlay */
+      }
+
+      /* Animation for the Buy button */
+      .buy-btn {
+        color: #48bb78; /* Green color for Buy button */
+        animation: verticalOscillation 1.5s infinite ease-in-out;
+      }
+
+      @keyframes verticalOscillation {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px); /* Move the text up by 10px */
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      .sell-btn {
+        color: #de5d5d; /* Red color for Sell button */
+      }
+
+      .video-container.active {
+        display: block;
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .background-video {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        width: 100%;
+        height: auto;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+      }
+
+      /* Style for the overlay text */
+      .overlay-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 10px;
+        color: white;
+        font-weight: bold;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.3
+        ); /* Semi-transparent background */
+        padding: 10px 20px;
+        border-radius: 10px;
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Conteneur des boutons Buy et Sell -->
+    <div class="buttons-container active">
+      <button class="buy-btn" onclick="showBuyPage()">BUY</button>
+      <button
+        class="sell-btn"
+        onmouseover="revealImage()"
+        onmouseout="hideImage()"
+        onclick="window.location.href='https://en.wikipedia.org/wiki/Loser'"
+      >
+        SELL
+      </button>
+      <!-- Black overlay that fades out on hover -->
+      <div class="black-overlay"></div>
+    </div>
+
+    <!-- Conteneur de la vidéo -->
+    <div class="video-container">
+      <video id="myVideo" loop class="background-video">
+        <source src="lethimcook.mp4" type="video/mp4" />
+        Votre navigateur ne supporte pas la vidéo HTML5.
+      </video>
+      <!-- Overlay text in the center -->
+      <div class="overlay-text">
+        <h1>TICKER: TIGER</h1>
+        <h1>CA: 6RVY5ORULZWGJP82KYHKAVNVDWCEWAA74WZRTKUSPUMP</h1>
+      </div>
+    </div>
+
+    <script>
+      // Fonction pour afficher la page avec la vidéo et cacher les boutons
+      function showBuyPage() {
+        document.querySelector('.buttons-container').classList.remove('active');
+        document.querySelector('.video-container').classList.add('active');
+
+        // Essayer de jouer la vidéo manuellement
+        const video = document.getElementById('myVideo');
+        video
+          .play()
+          .then(() => {
+            // Retirer le mute si autoplay est autorisé
+            video.muted = false;
+          })
+          .catch((error) => {
+            console.error('Autoplay bloqué, vidéo démarrée sans son.');
+          });
+      }
+
+      // Functions to reveal or hide the background image
+      function revealImage() {
+        document.querySelector('.black-overlay').style.opacity = '0';
+      }
+
+      function hideImage() {
+        document.querySelector('.black-overlay').style.opacity = '1';
+      }
+    </script>
+  </body>
+</html>
